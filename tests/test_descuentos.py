@@ -12,7 +12,7 @@ def test_descuento_20_porciento():
 
 
 def test_descuento_0_porciento():
-    assert calcular_descuento(50, 0) = 50
+    assert calcular_descuento(50, 0) == 50
 
 
 def test_descuento_precio_negativo():
