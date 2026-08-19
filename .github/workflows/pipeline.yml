@@ -1,0 +1,47 @@
+name: Pipeline CI/CD - Sistema de Descuentos
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Descargar código
+        uses: actions/checkout@v4
+
+      - name: 2. Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 3. Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: 4. Compilar aplicación
+        run: |
+          echo "======================="
+          echo "BUILD - Compilando proyecto"
+          echo "======================="
+          python -m py_compile src/descuentos.py
+          echo "BUILD EXITOSO"
+
+      - name: 5. Ejecutar pruebas
+        run: |
+          echo "======================="
+          echo "TEST - Probando aplicación"
+          echo "======================="
+          pytest -v
+          echo "TEST EXITOSO"
+
+      - name: 6. Despliegue simulado
+        run: |
+          echo "======================="
+          echo "DEPLOY - Desplegando a staging"
+          echo "======================="
+          mkdir -p staging
+          cp src/descuentos.py staging/
+          echo "Despliegue exitoso"
